@@ -2,6 +2,7 @@ import sys
 from collections import defaultdict
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
+asse=""
 class Command():
     def __init__(self):
         self.command=[]
@@ -24,6 +25,18 @@ class Command():
         for i in self.command:
             res+=f"{i}, "
         return res[:-2]
+    def get_string(self):
+        res=""
+        res+=f"<A>{str(self.a)}</A>"
+        res += f"<B>{str(self.b)}</B>"
+        res += f"<C>{str(self.c)}</C>"
+        if hasattr(self,"d"):
+            res += f"<D>{str(self.d)}</D>"
+            res += f"<E>{str(self.e)}</E>"
+        res += f"<com>{str(self.get_command())}</com>"
+        return res
+
+
 
     def xmlify(self):
         log_entry = ET.Element("command")
@@ -38,17 +51,15 @@ class Command():
         return log_entry
 
 def work(s):
+
     memory = defaultdict(lambda: 0)
     commands=[]
-    for par in range(len(s)//8):
-        com=""
+    for par in range(len(s)//64):
+        com=s[par*64:(par+1)*64]
 
         commands.append(Command())
 
-        for cm in s[par*8:(par+1)*8]:
 
-            com=format(int(cm,16),"08b")+com
-            commands[-1].add_to_com(cm)
 
         oper=int(com[::-1][0:5+1][::-1],2)
 
@@ -76,15 +87,38 @@ def work(s):
             offset= int(com[::-1][57:62 + 1][::-1], 2)
             memory[address_res]=int(memory[address1]==memory[address2+offset])
             commands[-1].set_ABCDE(54, address_res, address1,address2,offset)
+        else:
+            print("Я такой команды не знаю")
 
     return memory,commands
 
+def assmb(s):
+    asse=""
+    s=s.replace(",", "").replace(" ", "").replace("\n", "").split("0x")[1:]
+    for par in range(len(s) // 8):
+        com=""
+        for cm in s[par * 8:(par + 1) * 8]:
+            com = format(int(cm, 16), "08b") + com
+
+        asse+=com
+    return asse
 if __name__ == "__main__":
     f = open(sys.argv[1], "r")
-    s = f.read().replace(",", "").replace(" ", "").replace("\n", "").split("0x")[1:]
-    memory,commands=work(s)
+    asse=assmb(f.read())
+    output = ET.Element("output")
+    ET.SubElement(output, "data").text = asse
+    ET.ElementTree(output).write(sys.argv[2], encoding="utf-8", xml_declaration=True)
+
+    parser = ET.XMLParser(encoding="utf-8")
+    tree = ET.parse(sys.argv[2], parser=parser)
+    root = tree.getroot()
+    rt = str(root.findall("data")[0].text)
+    print(rt)
+    memory,commands=work(rt)
 
 #17 b 14
+
+    
 
     log = ET.Element("log")
     coms=ET.SubElement(log,"commands")
@@ -94,18 +128,19 @@ if __name__ == "__main__":
     output=ET.Element("output")
 
     mem=ET.SubElement(log,"memory")
-    mem_bin = ""
+    
     for i in memory.keys():
-        mem_bin+=format(i,"017b")+format(memory[i],"014b")
+        
 
         ET.SubElement(mem,f"cell_{str(i)}").text=str(memory[i])
 
-    ET.SubElement(output,"data").text=mem_bin
+    
     raw_xml = ET.tostring(log, encoding="utf-8")
-
+    
+    
     pretty_xml = minidom.parseString(raw_xml).toprettyxml(indent="    ")
 
-    ET.ElementTree(output).write(sys.argv[2], encoding="utf-8", xml_declaration=True)
+    
     open(sys.argv[3],"w").write(pretty_xml)
     print("Great succes Нраица")
 
