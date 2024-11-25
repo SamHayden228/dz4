@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<log>
+    <commands>
+        <command>
+            <A>35</A>
+            <B>50</B>
+            <C>1</C>
+            <command_bytes>0xA3, 0x0C, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00</command_bytes>
+        </command>
+        <command>
+            <A>35</A>
+            <B>51</B>
+            <C>245</C>
+            <command_bytes>0xE3, 0x0C, 0x80, 0x7A, 0x00, 0x00, 0x00, 0x00</command_bytes>
+        </command>
+        <command>
+            <A>35</A>
+            <B>52</B>
+            <C>245</C>
+            <command_bytes>0x23, 0x0D, 0x80, 0x7A, 0x00, 0x00, 0x00, 0x00</command_bytes>
+        </command>
+        <command>
+            <A>35</A>
+            <B>53</B>
+            <C>666</C>
+            <command_bytes>0x63, 0x0D, 0x00, 0x4D, 0x01, 0x00, 0x00, 0x00</command_bytes>
+        </command>
+        <command>
+            <A>35</A>
+            <B>54</B>
+            <C>96</C>
+            <command_bytes>0xA3, 0x0D, 0x00, 0x30, 0x00, 0x00, 0x00, 0x00</command_bytes>
+        </command>
+        <command>
+            <A>35</A>
+            <B>666</B>
+            <C>245</C>
+            <command_bytes>0xA3, 0xA6, 0x80, 0x7A, 0x00, 0x00, 0x00, 0x00</command_bytes>
+        </command>
+        <command>
+            <A>54</A>
+            <B>50</B>
+            <C>666</C>
+            <D>50</D>
+            <E>0</E>
+            <command_bytes>0xB6, 0x0C, 0x00, 0x4D, 0x01, 0x32, 0x00, 0x00</command_bytes>
+        </command>
+        <command>
+            <A>54</A>
+            <B>51</B>
+            <C>666</C>
+            <D>50</D>
+            <E>1</E>
+            <command_bytes>0xF6, 0x0C, 0x00, 0x4D, 0x01, 0x32, 0x00, 0x02</command_bytes>
+        </command>
+        <command>
+            <A>54</A>
+            <B>52</B>
+            <C>666</C>
+            <D>50</D>
+            <E>2</E>
+            <command_bytes>0x36, 0x0D, 0x00, 0x4D, 0x01, 0x32, 0x00, 0x04</command_bytes>
+        </command>
+        <command>
+            <A>54</A>
+            <B>53</B>
+            <C>666</C>
+            <D>50</D>
+            <E>3</E>
+            <command_bytes>0x76, 0x0D, 0x00, 0x4D, 0x01, 0x32, 0x00, 0x06</command_bytes>
+        </command>
+        <command>
+            <A>54</A>
+            <B>54</B>
+            <C>666</C>
+            <D>50</D>
+            <E>4</E>
+            <command_bytes>0xB6, 0x0D, 0x00, 0x4D, 0x01, 0x32, 0x00, 0x08</command_bytes>
+        </command>
+    </commands>
+    <memory>
+        <cell_50>0</cell_50>
+        <cell_51>1</cell_51>
+        <cell_52>1</cell_52>
+        <cell_53>0</cell_53>
+        <cell_54>0</cell_54>
+        <cell_666>245</cell_666>
+    </memory>
+</log>
