@@ -80,7 +80,7 @@ def work(s):
     return memory,commands
 
 if __name__ == "__main__":
-    f = open("input_test.txt", "r")
+    f = open(sys.argv[1], "r")
     s = f.read().replace(",", "").replace(" ", "").replace("\n", "").split("0x")[1:]
     memory,commands=work(s)
 
@@ -105,8 +105,8 @@ if __name__ == "__main__":
 
     pretty_xml = minidom.parseString(raw_xml).toprettyxml(indent="    ")
 
-    ET.ElementTree(output).write("output.xml", encoding="utf-8", xml_declaration=True)
-    open("log.xml","w").write(pretty_xml)
+    ET.ElementTree(output).write(sys.argv[2], encoding="utf-8", xml_declaration=True)
+    open(sys.argv[3],"w").write(pretty_xml)
     print("Great succes Нраица")
 
 
