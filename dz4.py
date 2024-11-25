@@ -3,12 +3,26 @@ from collections import defaultdict
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 asse=""
+def binary_to_hex(binary_str):
+    # Убедимся, что длина кратна 4, добавляя нули слева
+    binary_str = binary_str.zfill((len(binary_str) + 3) // 4 * 4)
+    # Перевод в шестнадцатеричное
+    hex_str = hex(int(binary_str, 2))[2:].upper()
+    return hex_str
 class Command():
-    def __init__(self):
-        self.command=[]
+    def __init__(self,s):
+        res = binary_to_hex(s)
 
-    def add_to_com(self,com):
-        self.command.append(f"0x{com}")
+        while len(res) < 16:
+            res = "0" + res
+
+        co = []
+        for i in range(0, len(res)):
+            if i % 2 != 0:
+                co.append((res[i - 1] + res[i]).upper())
+        self.command = co[::-1]
+
+
     def set_ABC(self,a,b,c):
         self.a=a
         self.b=b
@@ -23,8 +37,8 @@ class Command():
     def get_command(self):
         res=""
         for i in self.command:
-            res+=f"{i}, "
-        return res[:-2]
+            res += f"0x{i}, "
+        return res;
     def get_string(self):
         res=""
         res+=f"<A>{str(self.a)}</A>"
@@ -46,6 +60,7 @@ class Command():
         if hasattr(self,"d"):
             ET.SubElement(log_entry, "D").text = str(self.d)
             ET.SubElement(log_entry, "E").text = str(self.e)
+
         ET.SubElement(log_entry, "command_bytes").text = str(self.get_command())
 
         return log_entry
@@ -57,7 +72,7 @@ def work(s):
     for par in range(len(s)//64):
         com=s[par*64:(par+1)*64]
 
-        commands.append(Command())
+        commands.append(Command(s[par*64:(par+1)*64]))
 
 
 
@@ -113,7 +128,7 @@ if __name__ == "__main__":
     tree = ET.parse(sys.argv[2], parser=parser)
     root = tree.getroot()
     rt = str(root.findall("data")[0].text)
-    print(rt)
+
     memory,commands=work(rt)
 
 #17 b 14
