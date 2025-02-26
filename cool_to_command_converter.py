@@ -1,4 +1,5 @@
 write=0
+print(11)
 def binary_to_hex(binary_str):
     # Убедимся, что длина кратна 4, добавляя нули слева
     binary_str = binary_str.zfill((len(binary_str) + 3) // 4 * 4)
